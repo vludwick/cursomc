@@ -1,5 +1,6 @@
 package com.victorludwick.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.victorludwick.cursomc.domain.Cidade;
 import com.victorludwick.cursomc.domain.Cliente;
@@ -36,6 +38,9 @@ public class ClienteService {
 	
 	@Autowired
 	private BCryptPasswordEncoder pe;
+	
+	@Autowired
+	private S3Service s3service;
 	
 	public Cliente find(Integer id) {
 		
@@ -108,4 +113,8 @@ public class ClienteService {
 		newObj.setEmail(obj.getEmail());
 	}
 
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3service.uploadFile(multipartFile);
+	}
+	
 }
